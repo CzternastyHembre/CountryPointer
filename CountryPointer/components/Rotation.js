@@ -4,8 +4,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { DeviceMotion } from "expo-sensors";
 
 export default function Rotation() {
-  const [{ rotation }, setMotionData] = useState({
+  const [{ rotation, rotationRate }, setMotionData] = useState({
     rotation: {
+      alpha: 0,
+      beta: 0,
+      gamma: 0,
+    },
+    rotationRate: {
       alpha: 0,
       beta: 0,
       gamma: 0,
@@ -64,9 +69,15 @@ export default function Rotation() {
       </TouchableOpacity>
 
       <Text style={styles.text}>Rotation:</Text>
-      <Text style={styles.text}>alpha: {(rotation.alpha / Math.PI) * 180}</Text>
-      <Text style={styles.text}>beta: {(rotation.beta / Math.PI) * 180}</Text>
-      <Text style={styles.text}>gamma: {(rotation.gamma / Math.PI) * 180}</Text>
+      <Text style={styles.text}>
+        alpha: {(rotation.alpha / Math.PI) * 180} | {rotationRate.alpha}
+      </Text>
+      <Text style={styles.text}>
+        beta: {(rotation.beta / Math.PI) * 180} | {rotationRate.beta}
+      </Text>
+      <Text style={styles.text}>
+        gamma: {(rotation.gamma / Math.PI) * 180} | {rotationRate.gamma}
+      </Text>
       <StatusBar style="auto" />
     </View>
   );
