@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
   paragraph: {
     fontSize: 30,
     textAlign: "center",
+    color: "blue",
   },
   errorMsg: {
     color: "red",

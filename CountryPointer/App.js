@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState, Fragment } from "react";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { DeviceMotion } from "expo-sensors";
 import Rotation from "./components/Rotation";
 import Compass from "./components/Compass";
@@ -13,14 +13,19 @@ export default function App() {
   const [showRotation, setShowRotation] = useState(0);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>CountryPointerº</Text>
-      <Text style={styles.head}>EINAR</Text>
-      <View style={styles.arrowUp}></View>
-      <View>
-        <CompassView />
-      </View>
-    </View>
+    <Fragment>
+      <SafeAreaView style={{ flex: 0, backgroundColor: "black" }} />
+      <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+        <View style={styles.container}>
+          <Text style={styles.heading}>CountryPointerº</Text>
+          <View style={styles.arrowUp}></View>
+          <View>
+            <CompassView />
+          </View>
+          <Text style={styles.head}>Einar BH Penis & Mattis CH</Text>
+        </View>
+      </SafeAreaView>
+    </Fragment>
   );
 }
 
@@ -41,7 +46,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "#000",
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
@@ -49,31 +54,27 @@ const styles = StyleSheet.create({
   head: {
     fontSize: 20,
     position: "absolute",
-    top: 100,
+    bottom: 110,
+    color: "#fff",
+    fontFamily: "Cochin",
+    fontWeigth: 10,
+    fontStyle: "cursive",
   },
   text: {
     fontSize: 18,
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#BBB",
-    padding: 10,
-  },
-
-  buttosSelected: {
-    alignItems: "center",
-    backgroundColor: "#EaEaEa",
-    padding: 10,
+    color: "#fff",
   },
 
   flexView: {
     marginTop: 150,
     flexDirection: "row",
+    color: "#fff",
   },
 
   heading: {
     fontSize: 45,
     position: "absolute",
     top: 50,
+    color: "#fff",
   },
 });
