@@ -17,6 +17,8 @@ export default function CompassView() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [subscription, setSubscription] = useState(null);
   const [location, setLocation] = useState([0, 0]);
+  const [countryData, setCountryData] = useState("...");
+  const [currentCountry, setCurrentCountry] = useState("");
 
   const _slow = () => {
     DeviceMotion.setUpdateInterval(1000);
@@ -62,8 +64,13 @@ export default function CompassView() {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      console.log(location);
       setLocation([location.coords.latitude, location.coords.longitude]);
+      let country = getCountry([
+        location.coords.latitude,
+        location.coords.longitude,
+      ]);
+      console.log(country);
+      setCurrentCountry(country);
     })();
   }, []);
   const [newLocation, setNewLocation] = useState([0, 0]);
@@ -78,7 +85,32 @@ export default function CompassView() {
       location[1] +
       (distance / earth_radius) * (180 / Math.PI) * Math.sin(degree);
     console.log(lat2 + "," + lon2);
+    getCountry([lat2, lon2]);
     return [lat2, lon2];
+
+    degree = (degree * Math.PI) / 180 - Math.PI;
+
+    latitude = location[0];
+    longitude = location[1];
+    const degrees = distance / (69.047 * Math.cos(latitude));
+    const new_latitude = latitude + degrees * Math.cos(degree);
+    const new_longitude = longitude + degrees * Math.sin(degree);
+    console.log(new_latitude + "," + new_longitude);
+
+    return [new_latitude, new_longitude];
+  };
+
+  const getCountry = async (location) => {
+    url = "https://api.bigdatacloud.net/data/reverse-geocode-client";
+    latitude = location[0];
+    longitude = location[1];
+    url = url + "?latitude=" + latitude + "&longitude=" + longitude;
+
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+    setCountryData(data.countryName);
+    return data.countryName;
   };
 
   let text = "Waiting..";
@@ -92,9 +124,7 @@ export default function CompassView() {
     <View>
       <Text style={styles.paragraph}>{text}</Text>
       <TouchableOpacity
-        onPress={() =>
-          setNewLocation(getNewLocation(location, magHead, 100_000))
-        }
+        onPress={() => getNewLocation(location, magHead, 500000)}
         style={styles.darkModeButton}
       >
         <Text>Cpº</Text>
@@ -102,6 +132,7 @@ export default function CompassView() {
       <Text style={styles.paragraph}>
         {newLocation[0] + "\n" + newLocation[1]}
       </Text>
+      <Text style={styles.paragraph}>{countryData}</Text>
     </View>
   );
 }
