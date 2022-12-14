@@ -1,6 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, Fragment } from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import { DeviceMotion } from "expo-sensors";
 import Rotation from "./components/Rotation";
 import Compass from "./components/Compass";

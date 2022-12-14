@@ -62,34 +62,59 @@ export default function CompassView() {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setLocation([location.coords.longitude, location.coords.latitude]);
+      console.log(location);
+      setLocation([location.coords.latitude, location.coords.longitude]);
     })();
   }, []);
+  const [newLocation, setNewLocation] = useState([0, 0]);
 
   const getNewLocation = (location, degree, distance) => {
-    lat2 = location[1] + (distance / earth_radius) * (180 / pi) * cos(degree);
-    lon2 =
+    const earth_radius = 6371 * 1000;
+    degree = (degree * Math.PI) / 180;
+    const lat2 =
       location[0] +
-      ((distance / earth_radius) * (180 / pi) * sin(degree)) / cos(location[1]);
-    return [lon2, lat2];
+      (distance / earth_radius) * (180 / Math.PI) * Math.cos(degree);
+    const lon2 =
+      location[1] +
+      (distance / earth_radius) * (180 / Math.PI) * Math.sin(degree);
+    console.log(lat2 + "," + lon2);
+    return [lat2, lon2];
   };
 
   let text = "Waiting..";
   if (errorMsg) {
     text = errorMsg;
   } else if (magHead) {
-    text = Math.round(magHead) + "º\n" + location;
+    text = Math.round(magHead) + "º\n" + location[0] + "\n" + location[1];
   }
 
   return (
     <View>
       <Text style={styles.paragraph}>{text}</Text>
+      <TouchableOpacity
+        onPress={() =>
+          setNewLocation(getNewLocation(location, magHead, 100_000))
+        }
+        style={styles.darkModeButton}
+      >
+        <Text>Cpº</Text>
+      </TouchableOpacity>
+      <Text style={styles.paragraph}>
+        {newLocation[0] + "\n" + newLocation[1]}
+      </Text>
     </View>
   );
 }
 
 /* @hide const styles = StyleSheet.create({ ... }); */
 const styles = StyleSheet.create({
+  darkModeButton: {
+    backgroundColor: "#ddd",
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+  },
+
   container: {
     flex: 1,
     alignItems: "center",
