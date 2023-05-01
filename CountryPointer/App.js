@@ -28,7 +28,7 @@ export default function App() {
           <View>
             <CompassView />
           </View>
-          <Text style={styles.head}>Einar BH Penis & Mattis CH</Text>
+          <Text style={styles.head}>Einar BH & Mattis CH</Text>
         </View>
       </SafeAreaView>
     </Fragment>
